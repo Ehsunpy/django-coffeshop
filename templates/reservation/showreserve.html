@@ -1,0 +1,105 @@
+{% extends "foods/base.html" %}
+{% load static i18n %}
+
+{% block content %}
+<section id="Reservation" class="parallax-window" data-parallax="scroll" data-image-src="{% static 'img/antique-cafe-bg-02.jpg' %}">
+    <div class="flex justify-center items-center min-h-screen py-20">
+        <div class="flex-1 max-w-4xl rounded-xl p-8 pb-12 m-5 bg-black bg-opacity-60 tm-item-container">
+            <!-- هدر -->
+            <div class="text-center mb-10">
+                <h2 class="text-4xl tm-text-gold font-semibold mb-2">لیست رزرواسیون‌ها</h2>
+                <p class="text-gray-300 text-lg">مشاهده تمام رزروهای انجام شده</p>
+            </div>
+
+            <!-- فیلترها -->
+            <div class="mb-8 bg-black bg-opacity-40 rounded-lg p-6 shadow-xl">
+                <h3 class="text-xl tm-text-gold mb-4">فیلتر رزروها</h3>
+                <form method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- فیلتر بر اساس تاریخ -->
+                    <div>
+                        <label for="date" class="block text-gray-300 text-sm mb-2">تاریخ</label>
+                        <input type="date" name="date" id="date" class="input w-full bg-black border-b bg-opacity-0 text-white px-0 py-2 tm-border-gold">
+                    </div>
+
+                    <!-- فیلتر بر اساس تعداد نفرات -->
+                    <div>
+                        <label for="number_of_people" class="block text-gray-300 text-sm mb-2">تعداد نفرات</label>
+                        <select name="number_of_people" id="number_of_people" class="input w-full bg-black border-b bg-opacity-0 text-white px-0 py-2 tm-border-gold">
+                            <option value="">همه</option>
+                            <option value="1">1 نفر</option>
+                            <option value="2">2 نفر</option>
+                            <option value="3">3 نفر</option>
+                            <option value="4">4 نفر</option>
+                            <option value="5">5 نفر یا بیشتر</option>
+                        </select>
+                    </div>
+
+                    <!-- دکمه اعمال فیلتر -->
+                    <div class="flex items-end">
+                        <button type="submit" class="tm-btn-gold w-full">
+                            اعمال فیلتر
+                            <i class="fas fa-filter ml-2"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- لیست رزرواسیون‌ها -->
+            <div class="bg-black bg-opacity-40 rounded-lg p-8 shadow-xl">
+                {% if reservations %}
+                    <div class="grid grid-cols-1 gap-6">
+                        {% for reservation in reservations %}
+                            <div class="bg-black bg-opacity-30 rounded-lg p-6">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                    <div>
+                                        <p class="text-xl tm-text-gold mb-2">نام میهمان</p>
+                                        <p class="text-white text-lg">{{ reservation.name }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xl tm-text-gold mb-2">تاریخ و زمان</p>
+                                        <p class="text-white text-lg">{{ reservation.date }} - {{ reservation.time }}</p>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                    <div>
+                                        <p class="text-xl tm-text-gold mb-2">📧 ایمیل</p>
+                                        <p class="text-white text-lg break-all">{{ reservation.email }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xl tm-text-gold mb-2">📱 تلفن همراه</p>
+                                        <p class="text-white text-lg">{{ reservation.phone }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xl tm-text-gold mb-2">👥 تعداد نفرات</p>
+                                        <p class="text-white text-lg">{{ reservation.number_of_people }} نفر</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="text-xl tm-text-gold mb-2">📝 درخواست ویژه</p>
+                                    <p class="text-white text-lg">
+                                        {% if reservation.special_request %}
+                                            {{ reservation.special_request }}
+                                        {% else %}
+                                            <span class="text-gray-400">درخواست ویژه ای ثبت نشده</span>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-center text-gray-300 text-lg">هیچ رزروی یافت نشد.</p>
+                {% endif %}
+            </div>
+
+            <!-- دکمه بازگشت -->
+            <div class="flex justify-center mt-10">
+                <a href="/" class="tm-btn-gold">
+                    بازگشت به صفحه اصلی
+                    <i class="fas fa-arrow-left mr-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

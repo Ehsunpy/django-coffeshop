@@ -1,0 +1,34 @@
+{% extends 'foods/base.html' %}
+{% load static %}
+{% block content %}
+g
+    <!-- Intro -->
+
+    <!-- Cafe Menu -->
+    <div id="menu" class="parallax-window" data-parallax="scroll" data-image-src="{% static 'img/antique-cafe-bg-02.jpg' %}">
+        <div class="container mx-auto tm-container py-24 sm:py-48">
+            <div class="text-center mb-16">
+                <h2 class="bg-white tm-text-brown py-6 px-12 text-4xl font-medium inline-block rounded-md">Our Cafe Menu</h2>
+            </div>
+
+            <!-- Start Food Loop -->
+            {% for food in foods %}
+            <div class="flex flex-col lg:flex-row justify-around items-center mb-8">
+                <div class="flex-1 m-5 rounded-xl px-4 py-6 sm:px-8 sm:py-10 tm-bg-brown tm-item-container">
+                    <div class="flex items-start mb-6 tm-menu-item">
+                        <img src="{{ food.photo.url }}" alt="{{ food.name }}" class="rounded-md w-1/3">
+                        <div class="ml-3 sm:ml-6 flex-1">
+                            <h3 class="text-lg sm:text-xl mb-2 sm:mb-3 tm-text-yellow">{{ food.name }}</h3>
+                            <div class="text-white text-md sm:text-lg font-light mb-1">${{ food.price }}</div>
+                            <div class="text-white text-md sm:text-lg font-light mt-4">{{ food.description }}</div>
+                            <div class="text-white text-md sm:text-lg font-light mt-2">زمان آماده‌سازی: {{ food.time }} دقیقه</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <!-- End Food Loop -->
+
+        </div>
+    </div>
+{% endblock content %}

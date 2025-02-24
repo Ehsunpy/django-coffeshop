@@ -1,0 +1,143 @@
+{% extends "foods/base.html" %}
+{% load static i18n %}
+
+{% block content %}
+<section id="#Reservation" class="parallax-window" data-parallax="scroll" data-image-src="{% static 'img/antique-cafe-bg-02.jpg' %}">
+    <div class="flex justify-center items-center min-h-screen py-20">
+        <div class="flex-1 max-w-2xl rounded-xl p-12 pb-14 m-5 bg-black bg-opacity-50 tm-item-container">
+            <h2 class="text-3xl tm-text-gold mb-8 text-center">رزرو میز</h2>
+
+            <form method="POST" class="text-lg">
+                {% csrf_token %}
+
+                <!-- Error Messages -->
+                {% if form.errors %}
+                <div class="mb-4 p-4 bg-red-800 bg-opacity-50 text-red-100 rounded-lg">
+                    <ul>
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Name Field -->
+                    <div>
+                        <input type="text"
+                               name="name"
+                               class="input w-full bg-black border-b bg-opacity-0 text-white px-0 py-4 tm-border-gold"
+                               placeholder="نام کامل *"
+                               value="{{ form.name.value|default_if_none:'' }}"
+                               required>
+                        {% if form.name.errors %}
+                            <span class="text-red-300 text-sm">{{ form.name.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Email Field -->
+                    <div>
+                        <input type="email"
+                               name="email"
+                               class="input w-full bg-black border-b bg-opacity-0 text-white px-0 py-4 tm-border-gold"
+                               placeholder="ایمیل *"
+                               value="{{ form.email.value|default_if_none:'' }}"
+                               required>
+                        {% if form.email.errors %}
+                            <span class="text-red-300 text-sm">{{ form.email.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Phone Field -->
+                    <div>
+                        <input type="tel"
+                               name="phone"
+                               class="input w-full bg-black border-b bg-opacity-0 text-white px-0 py-4 tm-border-gold"
+                               placeholder="شماره تماس *"
+                               value="{{ form.phone.value|default_if_none:'' }}"
+                               required>
+                        {% if form.phone.errors %}
+                            <span class="text-red-300 text-sm">{{ form.phone.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Number of People -->
+                    <div>
+                        <select name="number_of_people"
+                                class="input w-full bg-black border-b bg-opacity-0 text-white px-0 py-4 tm-border-gold"
+                                required>
+                            <option value="" disabled selected>تعداد نفرات *</option>
+                            {% for value, text in form.number_of_people.field.choices %}
+                                <option value="{{ value }}" {% if form.number_of_people.value == value %}selected{% endif %}>{{ text }}</option>
+                            {% endfor %}
+                        </select>
+                        {% if form.number_of_people.errors %}
+                            <span class="text-red-300 text-sm">{{ form.number_of_people.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Date Field -->
+                    <div>
+                        <input type="date"
+                               name="date"
+                               class="input w-full bg-black border-b bg-opacity-0 text-white px-0 py-4 tm-border-gold"
+                               min="{{ min_date }}"
+                               value="{{ form.date.value|default_if_none:'' }}"
+                               required>
+                        {% if form.date.errors %}
+                            <span class="text-red-300 text-sm">{{ form.date.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Time Field -->
+                    <div>
+                        <input type="time"
+                               name="time"
+                               class="input w-full bg-black border-b bg-opacity-0 text-white px-0 py-4 tm-border-gold"
+                               min="09:00"
+                               max="23:00"
+                               value="{{ form.time.value|default_if_none:'' }}"
+                               required>
+                        {% if form.time.errors %}
+                            <span class="text-red-300 text-sm">{{ form.time.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Special Request -->
+                <div class="mt-6">
+                    <textarea name="special_request"
+                              rows="4"
+                              class="input w-full bg-black border-b bg-opacity-0 text-white px-0 py-4 tm-border-gold"
+                              placeholder="درخواست ویژه (اختیاری)">{{ form.special_request.value|default_if_none:'' }}</textarea>
+                    {% if form.special_request.errors %}
+                        <span class="text-red-300 text-sm">{{ form.special_request.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <!-- Submit Button -->
+                <div class="text-left mt-8">
+                    <button type="submit"
+                            class="tm-text-gold hover:text-yellow-500 transition text-xl border-b border-transparent hover:border-yellow-500 pb-1">
+                        ثبت رزرو →
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+
+// Set minimum time based on current time
+const timeInput = document.querySelector('input[type="time"]');
+const now = new Date();
+if(now.getHours() < 9) {
+    timeInput.min = '09:00';
+} else {
+    timeInput.min = now.toTimeString().slice(0,5);
+}
+</script>
+{% endblock %}

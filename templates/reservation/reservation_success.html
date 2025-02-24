@@ -1,0 +1,19 @@
+{% extends "foods/base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="parallax-window" data-parallax="scroll" data-image-src="{% static 'img/antique-cafe-bg-03.jpg' %}">
+    <div class="flex justify-center items-center min-h-screen">
+        <div class="text-center tm-item-container bg-black bg-opacity-50 p-12 rounded-xl">
+            <h1 class="tm-text-gold text-4xl mb-8">رزرو شما ثبت شد! ✅</h1>
+            <p class="text-white text-xl mb-8">
+                با تشکر از انتخاب شما<br>
+                همکاران ما طی 24 ساعت آینده با شما تماس خواهند گرفت
+            </p>
+            <a href="/" class="tm-text-gold hover:text-yellow-500 text-xl border-b border-transparent hover:border-yellow-500 pb-1">
+                بازگشت به صفحه اصلی →
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

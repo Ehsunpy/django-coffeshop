@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antique Bakery Cafe HTML Template by Tooplate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600&family=Oswald:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"> <!-- fontawesome -->
+    <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tooplate-antique-cafe.css' %}">
+</head>
+
+<body>
+{% include "foods/_intro.html" %}
+
+{% block content %}
+
+{% endblock content %}
+{% include "foods/_about.html" %}
+{% include "foods/_contact.html" %}
+
+
+
+<!-- انتهای بدنه قبل از بسته شدن تگ body -->
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'js/parallax.min.js' %}"></script>
+<script src="{% static 'js/jquery.singlePageNav.min.js' %}"></script>
+
+<script>
+    (function($) {
+        // تابع برای مدیریت نمایش/مخفی کردن منو
+        function checkAndShowHideMenu() {
+            const navList = $('#tm-nav ul');
+            if(window.innerWidth < 768) {
+                navList.addClass('hidden');
+            } else {
+                navList.removeClass('hidden');
+            }
+        }
+
+        // وقتی داکیومنت آماده شد
+        $(document).ready(function() {
+            const tmNav = $('#tm-nav');
+
+            // مقداردهی اولیه SinglePageNav
+            tmNav.singlePageNav({
+                offset: 100,
+                filter: ':not(.external)', // حذف لینک‌های خارجی
+                updateHash: false // غیرفعال کردن آپدیت هش
+            });
+
+            // بررسی اولیه وضعیت منو
+            checkAndShowHideMenu();
+
+            // مدیریت تغییر سایز پنجره
+            $(window).on('resize', function() {
+                checkAndShowHideMenu();
+            });
+
+            // کلیک روی دکمه همبرگر
+            $('#menu-toggle').on('click', function(e) {
+                e.preventDefault();
+                $('#tm-nav ul').toggleClass('hidden');
+            });
+
+            // کلیک روی آیتم‌های منو
+            $('#tm-nav ul li a').on('click', function() {
+                if(window.innerWidth < 768) {
+                    $('#tm-nav ul').addClass('hidden');
+                }
+            });
+
+            // مدیریت اسکرول
+            $(window).on('scroll', function() {
+                const scrollTop = $(this).scrollTop();
+                tmNav.toggleClass('scroll', scrollTop > 100);
+            });
+
+            // اسکرول نرم
+            $('a[href^="#"]').on('click', function(e) {
+                e.preventDefault();
+                const target = $($(this).attr('href'));
+                if(target.length) {
+                    $('html, body').animate({
+                        scrollTop: target.offset().top
+                    }, 800, 'swing');
+                }
+            });
+        });
+    })(jQuery);
+</script>
+
+</body>
+</html>
